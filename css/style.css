@@ -239,7 +239,7 @@ body {
 }
 
 .dashboard-header p {
-    color: var(--dark-gray);
+    color: var(--light-gray);
     font-size: 16px;
 }
 
@@ -254,10 +254,325 @@ body {
 }
 
 .btn-add:hover {
-    background: rgba(22,22,22,0.95);
+    background: var(--yellow);
+    color: var(--black);
     border: 1px solid var(--border-dark);
     border-radius: 18px;
     padding: 25px;
     box-shadow: 0 0 35px rgba(245,196,0,0.12);
     overflow-x:auto ;
 }
+.vault-card {
+    background: rgba(22,22,22,0.95);
+    border: 1px solid var(--border-dark);
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 0 35px rgba(245,196,0,0.12);
+    overflow-x: auto;
+}
+.vault-table {
+    width:100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    min-width: 700px;
+}
+.vault-table th:nth-child(1),
+.vault-table td:nth-child(1) {
+    width: 25%;
+}
+
+.vault-table th:nth-child(2),
+.vault-table td:nth-child(2) {
+    width: 30%;
+}
+
+.vault-table th:nth-child(3),
+.vault-table td:nth-child(3) {
+    width: 20%;
+}
+
+.vault-table th:nth-child(4),
+.vault-table td:nth-child(4) {
+    width: 25%;
+}
+
+.vault-table th {
+    text-align: left;
+    padding: 18px 28px;
+    color:  var(--yellow);
+    border-bottom: 1px solid var(--border-dark);
+    font-size: 15px;
+}
+
+.vault-table td {
+    padding: 18px 28px;
+    color:  var(--white);
+    border-bottom: 1px solid var(--border-dark);
+    font-size: 15px;
+}
+
+.action-btn {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 8px 13px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.action-btn.view {
+    color: var(--yellow);
+    border: 1px solid var(--yellow)
+
+}
+
+.action-btn.edit {
+    color: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+.action-btn.delete {
+    color: #ff4d4d;
+    border: 1px solid #ff4d4d;
+}
+
+.action-btn:hover {
+    background: var(--yellow);
+    color:var(--black);
+    border-color: var(--yellow);
+}
+@media (max-width: 850px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 34px;
+    }
+
+    .vault-table th,
+    .vault-table td {
+        padding: 12px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .authorization-page {
+        gap: 80px;
+        padding: 50px 6%;
+    }
+
+    .authorization-left h1 {
+        font-size: 44px;
+        line-height: 1.15;
+    }
+
+    .authorization-card {
+        width: 100%;
+        max-width: 520px;
+    }
+
+    .dashboard-page {
+        padding: 50px 6%;
+    }
+}
+@media (max-width: 850px) {
+    .authorization-page {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+        padding: 40px 6%;
+    }
+
+    .authorization-left {
+        max-width: 100%;
+    }
+
+    .authorization-left h1 {
+        font-size: 38px;
+        line-height: 1.2;
+    }
+
+    .authorization-left p {
+        font-size: 16px;
+    }
+
+    .authorization-card {
+        width: 100%;
+        max-width: 520px;
+    }
+
+    .navbar {
+        height: auto;
+        min-height: 80px;
+        padding: 20px 6%;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 34px;
+    }
+
+    .btn-add {
+        width: 100%;
+        text-align: center;
+    }
+
+    .vault-card {
+        padding: 18px;
+    }
+
+    .vault-table {
+        min-width: 700px;
+    }
+}
+
+@media (max-width: 500px) {
+    .authorization-left h1 {
+        font-size: 32px;
+    }
+
+    .authorization-card {
+        padding: 25px;
+        border-radius: 14px;
+    }
+
+    .authorization-card h2 {
+        font-size: 26px;
+    }
+
+    .form-group input {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .btn-primary {
+        font-size: 15px;
+        padding: 12px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 30px;
+    }
+
+    .dashboard-page {
+        padding: 35px 5%;
+    }
+}
+
+@media (max-width: 1100px) {
+    .authorization-page {
+        gap: 70px;
+        padding: 50px 5%;
+    }
+
+    .authorization-left h1 {
+        font-size: 42px;
+        line-height: 1.15;
+    }
+
+    .authorization-card {
+        width: 100%;
+        max-width: 520px;
+    }
+}
+@media (max-width: 900px) {
+    .authorization-page {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+        gap: 35px;
+        padding: 40px 6%;
+    }
+
+    .authorization-left {
+        max-width: 100%;
+    }
+
+    .authorization-left h1 {
+        font-size: 36px;
+        line-height: 1.2;
+    }
+
+    .authorization-left p {
+        font-size: 16px;
+        max-width: 520px;
+        margin: 0 auto;
+    }
+
+    .authorization-card {
+        width: 100%;
+        max-width: 520px;
+    }
+
+    .authorization-card h2,
+    .subtitle {
+        text-align: left;
+    }
+}
+@media (max-width: 500px) {
+    .navbar {
+        height: auto;
+        padding: 20px 6%;
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .nav-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .authorization-page {
+        padding: 30px 5%;
+    }
+
+    .authorization-left h1 {
+        font-size: 30px;
+    }
+
+    .authorization-card {
+        padding: 25px;
+        border-radius: 14px;
+    }
+
+    .authorization-card h2 {
+        font-size: 26px;
+    }
+
+    .form-group input {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .btn-primary {
+        font-size: 15px;
+        padding: 12px;
+    }
+}
+ 
