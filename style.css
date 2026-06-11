@@ -33,3 +33,29 @@ body {
     border-bottom: 1px solid var(var(--border-dark));
 
 }
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: var(--white);
+
+}
+.nav-links a{
+    color: var(--light-gray);
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 15px;
+
+}
+
+.authorization-page {
+    min-height: calc(100vh - 75px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 8%;
+    gap: 50px;
+    background: 
+        radial-gradient(circle at right, rgba(245,196,0,0.22), transparent 35%), 
+        linear-gradient(120deg, #050505 0%, #080808 55%, #111111 100%);
+}
