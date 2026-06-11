@@ -16,3 +16,20 @@
     --border-dark: #2a2a2a;
 
 }
+
+body {
+    background: var(--black);
+    color: var(--white)
+
+}
+
+.navbar {
+    width: 100%;
+    padding: 22px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--black);
+    border-bottom: 1px solid var(var(--border-dark));
+
+}
