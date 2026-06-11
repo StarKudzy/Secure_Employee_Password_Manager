@@ -4,3 +4,15 @@
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
 }
+
+:root{
+    --black: #050505;
+    --dark-gray: #111111;
+    --card-dark: #161616;
+    --yellow: #f5c400;
+    --yellow-soft: #d4aa00;
+    --white: #ffffff;
+    --light-gray: #cfcfcf;
+    --border-dark: #2a2a2a;
+
+}
