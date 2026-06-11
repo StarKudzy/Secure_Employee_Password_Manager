@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Login | Secure Vault for Employees</title>
+    <link rel=" stylesheet" href ="css/style.css">
+</head>
+<body>
+      <nav class = "navbar">
+        <div class="logo">SECURE <span> SECURE VAULT FOR EMPLOYEES</span></div>
+
+            <div class="nav-links">
+                <a href="">Home</a>
+                <a href="register.html">Register</a>
+            </div>
+
+        </div>
+    </nav>
+
+    <section class = "authorization-page">
+        <div class = "authorization-left">
+            <h1>
+                Access your secure password vault.
+            </h1>
+            <p>
+                Log in to change your saved work-related passwords safels using encrypted credential storage.
+            </p>
+
+        </div>
+
+        <div class = "authorization-card">
+            <h2> Login</h2>
+            <p class ="subtitle"> Enter your account details to access your vault. </p>
+
+
+            <form method = "POST" action = "/login">
+               
+
+                 <div class = "form-group">
+                    <label for = "email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        required>
+
+                </div>
+                 <div class = "form-group">
+                    <label for = "Password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required>
+
+                </div>
+                 
+
+                <button type = "submit" class = "btn-primary">Login</button>
+
+            </form>
+
+            <p class = "authorization-link">
+              Do not have an account?
+                <a href = "register.html">Create one here</a>
+            </p>
+
+        </div>
+
+
+       
+    </section>
+    
+</body>
+</html>
