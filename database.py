@@ -6,6 +6,7 @@ def create_database():
     db_path = os.path.join(os.getcwd(), "password_manager.db")
 
     connection = sqlite3.connect(db_path)
+    connection.execute("PRAGMA foreign_keys = ON")
     cursor = connection.cursor()
 
     cursor.execute("""

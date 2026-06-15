@@ -1,14 +1,57 @@
-from flask import Flask, render_template, request, redirect
-import sqlite3
-from werkzeug.security import generate_password_hash
+from flask import Flask, render_template, request, redirect, session
+import sqlite3 #connect to SQLite Database
+import os #file handling- encryption key storage
+import secrets
+import string
+from werkzeug.security import generate_password_hash, check_password_hash
+from cryptography.fernet import Fernet
 
+#create the flas app
 app= Flask(__name__)
+app.secret_key = "change_this_to_a_random_key" # create flask key
 
+#database connection
 def get_db_connection():
     connection = sqlite3.connect("password_manager.db")
     connection.row_factory = sqlite3.Row
+    connection.execute("PRAGMA foreign_keys = ON") # PRAGMA statement enforce relations between tables
     return connection
 
+key_file = "secret.key"
+#fn  create encryption key
+def create_key():
+    key = Fernet.generate_key()
+    with open(key_file, "wb") as file:
+        file.write(key)
+    
+   #load encryption key from secret key 
+def load_key():
+    with open(key_file, "rb") as file:
+        return file.read()
+    
+    
+def get_cipher():
+    # creates secret key if it does not exist
+    if not os.path.exists(key_file):
+        create_key()
+        
+    key = load_key()
+    return Fernet(key)
+    
+
+cipher = get_cipher()
+
+def encrypt_password(password):
+    #encrypt plain-text password before saving it to the database
+    encrypted_password = cipher.encrypt(password.encode())
+    return encrypted_password.decode()
+
+# decrypt password when the user wants to view or edit
+def decrypt_password(encrypted_password):
+    decrypted_password = cipher.decrypt(encrypted_password.encode())
+    return decrypted_password.decode()
+           
+    
 @app.route("/")
 def home():
     return render_template("register.html")
@@ -45,8 +88,28 @@ def register():
     return render_template("register.html")
 
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    #if user submits the login form
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
+        
+    #search for a user using email
+        connection = get_db_connection()
+        user = connection.execute(
+        "SELECT * FROM users WHERE email = ?", (email,)
+        ).fetchone()
+        connection.close()    
+    
+    #check if the user exists and the entered password is correct
+        if user and check_password_hash(user["password_hash"], password):
+          session["user_id"] = user["id"] #store user info in the session and keeps user logged in
+          session["full_name"] = user["full_name"]
+        
+          return redirect("/dashboard")
+    #if the email or password is wrong
+        return("Invalid email or password")
     return render_template("login.html")
 
 
@@ -55,8 +118,43 @@ def dashboard():
     return render_template("dashboard.html")
 
 
-@app.route("/save_password")
+@app.route("/save_password", methods = ["GET", "POST"])
 def save_password():
+    #Only logged-in users can save passwords
+    
+    if "user_id" not in session:
+        return redirect("/login")
+    
+    #if user submits the save password form
+    if request.method == "POST":
+        service_name = request.form["service_name"]
+        username = request.form["username"]
+        password = request.form["password"]
+        notes = request.form["notes"]
+        
+        encrypt_password = encrypt_password(password) #encrypt the password before storing it
+        
+        connection = get_db_connection()
+        connection.execute(
+            """
+            INSERT INTO saved_passwords
+            (user_id, service_name, username, encrypted_password, notes)
+            VALUES(?,?,?,?,?)
+            """,
+            (
+                session["user_id"],
+                service_name,
+                username,
+                encrypt_password,
+                notes
+            )
+        )
+        
+        
+        connection.commit()
+        connection.close()
+        
+        return redirect("/dashboard")
     return render_template("save_password.html")
 
 
