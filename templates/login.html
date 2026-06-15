@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Login | Secure Vault for Employees</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
       <nav class = "navbar">
         <div class="logo">SECURE <span> SECURE VAULT FOR EMPLOYEES</span></div>
 
             <div class="nav-links">
-                <a href="">Home</a>
-                <a href="register.html">Register</a>
+                <a href="/login">Home</a>
+                <a href="/register">Register</a>
             </div>
 
         </div>
@@ -25,7 +25,7 @@
                 Access your secure password vault.
             </h1>
             <p>
-                Log in to change your saved work-related passwords safels using encrypted credential storage.
+                Log in to change your saved work-related passwords safely using encrypted credential storage.
             </p>
 
         </div>
@@ -49,7 +49,7 @@
 
                 </div>
                  <div class = "form-group">
-                    <label for = "Password">Password</label>
+                    <label for = "password">Password</label>
                     <input
                         type="password"
                         id="password"
@@ -66,7 +66,7 @@
 
             <p class = "authorization-link">
               Do not have an account?
-                <a href = "register.html">Create one here</a>
+                <a href = "/register">Create one here</a>
             </p>
 
         </div>

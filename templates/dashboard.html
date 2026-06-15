@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Secure Vault for Employees</title>
-    <link rel="stylesheet" href="css/style.css">
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
 
-<body>s
+<body>
     <nav class = "navbar">
         <div class ="nav-links">
-           <a href="templates/dashboard.html">Dashboard</a>
-           <a href="templates/save_password.html">Save Password</a>
-           <a href="templates/logout.html">Logout</a>
+           <a href="/dashboard">Dashboard</a>
+           <a href="/save-password">Save Password</a>
+           <a href="/logout">Logout</a>
 
         </div>
     </nav>
@@ -26,7 +26,7 @@
                 <p>Manage your saved work-related login details securely.</p>
             </div>
 
-            <a href="save_password.html" class="btn-add"> + Save New Password</a>
+            <a href="/save-password" class="btn-add"> + Save New Password</a>
 
         </div>
 
@@ -42,29 +42,24 @@
                 </thead>
 
                 <tbody>
+                   {% for password in passwords %}
                     <tr>
-                        <td>Company Email</td>
-                        <td>Employee@example.com</td>
-                        <td>........</td>
+                        <td>{{ password["service_name"] }}</td>
+                        <td>{{ password["username"] }}</td>
+                        <td>••••••••</td>
                         <td>
-                            <a href="" class="action-btn view">View</a>
-                            <a href="" class="action-btn edit">Edit</a>
-                            <a href="" class="action-btn delete">Delete</a>
-                           
+                            <a href="/view-password/{{ password['id'] }}" class="action-btn view">View</a>
+                            <a href="/edit-password/{{ password['id'] }}" class="action-btn edit">Edit</a>
+                            <a href="/delete-password/{{ password['id'] }}" class="action-btn delete">Delete</a>
                         </td>
                     </tr>
+                   {% else %}
 
                     <tr>
-                        <td>HR Portal</td>
-                        <td>employee01</td>
-                        <td>.........</td>
-                        <td>
-                            <a href="" class="action-btn view">View</a>
-                            <a href="" class="action-btn edit">Edit</a>
-                            <a href="" class="action-btn delete">Delete</a>
-                           
-                        </td>
+                         <td colspan="4">No passwords saved yet.</td>
                     </tr>
+                    
+                   {% endfor %}
                 </tbody>
 
             </table>
