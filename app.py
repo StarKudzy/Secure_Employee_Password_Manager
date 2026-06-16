@@ -115,10 +115,28 @@ def login():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    #only logged-in users can access the dashboard
+    
+    if "user_id" not in session:
+        return redirect("/login")
+    
+    connection = get_db_connection()
+    
+    #get passwords of logged in user
+    passwords = connection.execute(
+        """
+        SELECT * FROM saved_passwords
+        WHERE user_id = ? 
+        ORDER BY id DESC
+        """,
+        (session["user_id"],)
+    ).fetchall()
+    
+    connection.close()
+    return render_template("dashboard.html", passwords=passwords)
 
 
-@app.route("/save_password", methods = ["GET", "POST"])
+@app.route("/save-password", methods = ["GET", "POST"])
 def save_password():
     #Only logged-in users can save passwords
     
@@ -132,7 +150,7 @@ def save_password():
         password = request.form["password"]
         notes = request.form["notes"]
         
-        encrypt_password = encrypt_password(password) #encrypt the password before storing it
+        encrypted_password = encrypt_password(password) #encrypt the password before storing it
         
         connection = get_db_connection()
         connection.execute(
@@ -145,7 +163,7 @@ def save_password():
                 session["user_id"],
                 service_name,
                 username,
-                encrypt_password,
+                encrypted_password,
                 notes
             )
         )
@@ -159,8 +177,101 @@ def save_password():
 
 
 @app.route("/edit_password")
-def edit_password():
+def edit_password(password_id):
+      #Only logged-in users can edit passwords
+    
+    if "user_id" not in session:
+        return redirect("/login")
+    
+    
+    connection = get_db_connection()
+    
+   
+       
+    saved_password = connection.execute(
+            """
+            SELECT * FROM saved_passwords
+            WHERE id = ? AND user_id = ?
+            
+            """,
+            (password_id, session["user_id"])).fetchone()
+    
+    if save_password is None:
+        connection.close()
+        return "Password not found"
+    
+    if request.method == "POST":
+        service_name = request.form["service_name"]
+        username = request.form["username"]
+        password = request.form["password"]
+        notes = request.form["notes"]
+        
+        encrypted_password = encrypt_password(password) #encrypt the password before storing it
+        
+       
+        connection.execute(
+            """
+            UPDATE saved_passwords
+            SET service_name = ?,username = ?, password = ?, notes = ?
+            WHERE id = ? AND user_id = ?
+            """,
+            (
+                
+                service_name,
+                username,
+                encrypted_password,
+                notes,
+                session["user_id"],
+            )
+        )
+        
+    
+        
+        
+        connection.commit()
+        connection.close()
+        
+        return redirect("/dashboard")
+    
     return render_template("edit_password.html")
+
+@app.route("/view-password/<int:password_id>")
+def view_password(password_id):
+    if "user_id" not in session:
+        return redirect("/login")
+    
+    connection = get_db_connection
+
+    saved_password = connection.execute(
+        """
+        SELECT * FROM saved_passwords
+        WHERE id = ? AND user_id = ?
+        """,
+        (password_id, session["user_id"])
+    ).fetchone()
+    
+    
+    
+    if save_password is None:
+        return "Password not found"
+    
+    
+    
+    #decrypt password before showing it
+    real_password = decrypt_password(saved_password["encrypt_password"])
+    
+    return f"""
+              <h2>Saved Password</h2>
+        <p><strong>Service:</strong> {saved_password["service_name"]}</p>
+        <p><strong>Username:</strong> {saved_password["username"]}</p>
+        <p><strong>Password:</strong> {real_password}</p>
+        <p><strong>Notes:</strong> {saved_password["notes"]}</p>
+        <a href="/dashboard">Back to Dashboard</a>
+
+           """
+           
+    connection.close()       
+   
 
 
 @app.route("/logout")
